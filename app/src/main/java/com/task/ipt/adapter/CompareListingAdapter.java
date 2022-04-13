@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.task.ipt.R;
 import com.task.ipt.databinding.RowPhotoListBinding;
 import com.task.ipt.model.PhotosModel;
+import com.task.ipt.view.MainActivity;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ import java.util.List;
 public class CompareListingAdapter extends RecyclerView.Adapter<CompareListingAdapter.PhotoListViewHolder> {
 
     private List<PhotosModel> modelList;
-    private CertificateClickListener listener;
+    private ClickListener listener;
 
-    public CompareListingAdapter(List<PhotosModel> modelList, CertificateClickListener listener) {
+    public CompareListingAdapter(List<PhotosModel> modelList, ClickListener listener) {
         this.modelList = modelList;
         this.listener = listener;
     }
@@ -81,7 +82,7 @@ public class CompareListingAdapter extends RecyclerView.Adapter<CompareListingAd
         }
     }
 
-    public interface CertificateClickListener {
+    public interface ClickListener {
         void CompareList(String ImageUrl, int Id, String Url, String title);
     }
 }

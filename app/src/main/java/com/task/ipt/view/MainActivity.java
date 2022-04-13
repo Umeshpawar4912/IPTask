@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.task.ipt.R;
+import com.task.ipt.adapter.CompareListingAdapter;
 import com.task.ipt.adapter.PhotoListingAdapter;
 import com.task.ipt.databinding.ActivityMainBinding;
 import com.task.ipt.model.PhotosModel;
@@ -30,10 +31,11 @@ public class MainActivity extends AppCompatActivity implements PhotoListViewMode
         PhotoListingAdapter.ClickListener {
 
 
-    private List<PhotosModel> CopareList;
+    private List<PhotosModel> CompareList;
     private PhotoListViewModel photoListViewModel;
     private ActivityMainBinding binding;
     private PhotoListingAdapter adapter;
+    private CompareListingAdapter Cadapter;
     private ConnectionDetector connectionDetector;
     private ProgressDialog progressDialog;
 
@@ -98,7 +100,19 @@ public class MainActivity extends AppCompatActivity implements PhotoListViewMode
     }
 
     @Override
-    public void CompareList(String ImageUrl, int Id, String Url, String title) {
+    public void CompareList(int AlbumId,String ImageUrl, int Id, String Url, String title) {
 
+        PhotosModel data = new PhotosModel(AlbumId,  Id,  title,  Url,  ImageUrl);
+        CompareList.add(0, data);
+        Showlist();
+
+    }
+
+    private void Showlist() {
+
+        adapter = new CompareListingAdapter(CompareList, MainActivity.this);
+        binding.rvPhotolist.setItemAnimator(new DefaultItemAnimator());
+        binding.rvPhotolist.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

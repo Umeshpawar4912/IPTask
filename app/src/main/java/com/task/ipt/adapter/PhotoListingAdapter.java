@@ -31,7 +31,7 @@ public class PhotoListingAdapter extends RecyclerView.Adapter<PhotoListingAdapte
     }*/
 
     public PhotoListingAdapter(List<PhotosModel> photosModels, MainActivity listener) {
-        this.modelList = modelList;
+        this.modelList = photosModels;
         this.listener = listener;
     }
 
@@ -83,12 +83,12 @@ public class PhotoListingAdapter extends RecyclerView.Adapter<PhotoListingAdapte
             }
 
             rBinding.cardView.setOnClickListener(v -> {
-                listener.CompareList(photosModel.getThumbnailUrl(), photosModel.getId(), photosModel.getUrl(), photosModel.getTitle());
+                listener.CompareList(photosModel.getAlbumId(),photosModel.getThumbnailUrl(), photosModel.getId(), photosModel.getUrl(), photosModel.getTitle());
             });
         }
     }
 
     public interface ClickListener {
-        void CompareList(String ImageUrl, int Id, String Url, String title);
+        void CompareList(int AlbumId,String ImageUrl, int Id, String Url, String title);
     }
 }
