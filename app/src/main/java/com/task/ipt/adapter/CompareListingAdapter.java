@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.task.ipt.R;
+import com.task.ipt.databinding.RowCompareListBinding;
 import com.task.ipt.databinding.RowPhotoListBinding;
 import com.task.ipt.model.PhotosModel;
 import com.task.ipt.view.MainActivity;
@@ -52,23 +53,23 @@ public class CompareListingAdapter extends RecyclerView.Adapter<CompareListingAd
     }
 
     public class PhotoListViewHolder extends RecyclerView.ViewHolder {
-        RowPhotoListBinding rBinding;
+        RowCompareListBinding rBinding;
 
         public PhotoListViewHolder(@NonNull View itemView) {
             super(itemView);
-            rBinding = RowPhotoListBinding.bind(itemView);
+            rBinding = RowCompareListBinding.bind(itemView);
         }
 
         public void onBind(PhotosModel photosModel) {
 
             rBinding.txtId.setText(String.valueOf(photosModel.getId()));
-            rBinding.txtTitle.setText(String.valueOf(photosModel.getUrl()));
+            rBinding.txtTitle.setText(String.valueOf(photosModel.getTitle()));
             rBinding.txtUrl.setText(String.valueOf(photosModel.getUrl()));
 
 
             try {
-                Glide.with(itemView)
-                        .load(photosModel.getThumbnailUrl())
+                Glide.with(itemView.getContext())
+                        .load(photosModel.getUrl())
                         .fitCenter()
                         .placeholder(R.drawable.ic_launcher_background)
                         .into(rBinding.imgImage);
@@ -76,13 +77,10 @@ public class CompareListingAdapter extends RecyclerView.Adapter<CompareListingAd
                 e.printStackTrace();
             }
 
-            rBinding.cardView.setOnClickListener(v -> {
-                listener.CompareList(photosModel.getThumbnailUrl(), photosModel.getId(), photosModel.getUrl(), photosModel.getTitle());
-            });
         }
     }
 
     public interface ClickListener {
-        void CompareList(String ImageUrl, int Id, String Url, String title);
+
     }
 }

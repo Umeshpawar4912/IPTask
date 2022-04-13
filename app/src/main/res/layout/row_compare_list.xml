@@ -11,7 +11,7 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_10"
+        android:layout_margin="@dimen/margin_5"
         android:orientation="vertical"
         app:cardCornerRadius="@dimen/margin_5"
         app:cardElevation="@dimen/margin_10">

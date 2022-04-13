@@ -1,5 +1,6 @@
 package com.task.ipt.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.task.ipt.R;
 import com.task.ipt.databinding.RowPhotoListBinding;
 import com.task.ipt.model.PhotosModel;
@@ -25,12 +27,8 @@ public class PhotoListingAdapter extends RecyclerView.Adapter<PhotoListingAdapte
     private List<PhotosModel> modelList;
     private ClickListener listener;
 
-    /*public PhotoListingAdapter(List<PhotosModel> modelList, ClickListener listener) {
-        this.modelList = modelList;
-        this.listener = listener;
-    }*/
 
-    public PhotoListingAdapter(List<PhotosModel> photosModels, MainActivity listener) {
+    public PhotoListingAdapter(List<PhotosModel> photosModels, ClickListener listener) {
         this.modelList = photosModels;
         this.listener = listener;
     }
@@ -54,7 +52,13 @@ public class PhotoListingAdapter extends RecyclerView.Adapter<PhotoListingAdapte
 
     @Override
     public int getItemCount() {
-        return modelList.size();
+
+        if (modelList.size() > 10) {
+            return 10;
+        } else {
+            return modelList.size();
+        }
+        // return modelList.size();
     }
 
     public class PhotoListViewHolder extends RecyclerView.ViewHolder {
@@ -68,13 +72,14 @@ public class PhotoListingAdapter extends RecyclerView.Adapter<PhotoListingAdapte
         public void onBind(PhotosModel photosModel) {
 
             rBinding.txtId.setText(String.valueOf(photosModel.getId()));
-            rBinding.txtTitle.setText(String.valueOf(photosModel.getUrl()));
-            rBinding.txtUrl.setText(String.valueOf(photosModel.getUrl()));
+            rBinding.txtTitle.setText(photosModel.getTitle());
+            rBinding.txtUrl.setText(photosModel.getUrl());
+            String Img_Url =photosModel.getUrl();
 
 
-            try {
-                Glide.with(itemView)
-                        .load(photosModel.getThumbnailUrl())
+           /* try {
+                Glide.with(itemView.getContext())
+                        .load(photosModel.getUrl())
                         .fitCenter()
                         .placeholder(R.drawable.ic_launcher_background)
                         .into(rBinding.imgImage);
@@ -82,13 +87,47 @@ public class PhotoListingAdapter extends RecyclerView.Adapter<PhotoListingAdapte
                 e.printStackTrace();
             }
 
-            rBinding.cardView.setOnClickListener(v -> {
-                listener.CompareList(photosModel.getAlbumId(),photosModel.getThumbnailUrl(), photosModel.getId(), photosModel.getUrl(), photosModel.getTitle());
+
+*/
+
+
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.ic_launcher_round)
+                    .error(R.mipmap.ic_launcher_round);
+
+
+
+            Glide.with(itemView).load(Img_Url).apply(options).into(rBinding.imgImage);
+
+
+            rBinding.btnCompare.setOnClickListener(v -> {
+                if (rBinding.btnCompare.getText().equals("Compare")){
+                    listener.CompareList( photosModel.getThumbnailUrl(), photosModel.getId(), photosModel.getUrl(), photosModel.getTitle());
+                    rBinding.btnCompare.setText("Remove");
+                }else   if (rBinding.btnCompare.getText().equals("Remove")){
+                    listener.RemoveItem( photosModel.getThumbnailUrl(), photosModel.getId(), photosModel.getUrl(), photosModel.getTitle());
+                    rBinding.btnCompare.setText("Compare");
+
+                }
+
             });
         }
     }
 
     public interface ClickListener {
-        void CompareList(int AlbumId,String ImageUrl, int Id, String Url, String title);
+        void CompareList( String ImageUrl, int Id, String Url, String title);
+        void RemoveItem( String ImageUrl, int Id, String Url, String title);
     }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
 }

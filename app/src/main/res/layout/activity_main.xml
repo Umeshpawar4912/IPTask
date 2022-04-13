@@ -29,10 +29,10 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_marginEnd="@dimen/margin_15"
                 android:orientation="horizontal"
-                android:scrollbarAlwaysDrawHorizontalTrack="true"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:reverseLayout="true"
+                app:reverseLayout="false"
                 tools:listitem="@layout/row_photo_list" />
 
 
@@ -123,9 +123,9 @@
                 android:id="@+id/rv_compare_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_15"
+                android:layout_marginStart="@dimen/margin_5"
                 android:layout_marginTop="@dimen/margin_10"
-                android:layout_marginEnd="@dimen/margin_15"
+                android:layout_marginEnd="@dimen/margin_5"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:listitem="@layout/row_compare_list" />

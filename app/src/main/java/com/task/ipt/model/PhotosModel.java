@@ -5,8 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class PhotosModel {
 
-    public PhotosModel(Integer albumId, Integer id, String title, String url, String thumbnailUrl) {
-        this.albumId = albumId;
+    public PhotosModel (Integer id, String title, String url, String thumbnailUrl) {
         this.id = id;
         this.title = title;
         this.url = url;

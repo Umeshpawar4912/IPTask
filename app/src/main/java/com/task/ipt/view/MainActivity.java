@@ -25,10 +25,11 @@ import com.task.ipt.model.PhotosModel;
 import com.task.ipt.utils.ConnectionDetector;
 import com.task.ipt.viewModel.PhotoListViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PhotoListViewModel.PhotoListViewModelListener,
-        PhotoListingAdapter.ClickListener {
+        PhotoListingAdapter.ClickListener, CompareListingAdapter.ClickListener {
 
 
     private List<PhotosModel> CompareList;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements PhotoListViewMode
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         connectionDetector = new ConnectionDetector(this);
         photoListViewModel = new PhotoListViewModel(this);
+        CompareList = new ArrayList<>();
         init();
 
     }
@@ -100,19 +102,45 @@ public class MainActivity extends AppCompatActivity implements PhotoListViewMode
     }
 
     @Override
-    public void CompareList(int AlbumId,String ImageUrl, int Id, String Url, String title) {
+    public void CompareList(String ImageUrl, int Id, String Url, String title) {
 
-        PhotosModel data = new PhotosModel(AlbumId,  Id,  title,  Url,  ImageUrl);
-        CompareList.add(0, data);
+        PhotosModel photosModel = new PhotosModel(Id, title, Url, ImageUrl);
+        CompareList.add(0, photosModel);
         Showlist();
 
     }
 
+    @Override
+    public void RemoveItem(String ImageUrl, int Id, String Url, String title) {
+
+        if (CompareList.size() > 0) {
+            boolean flag = false;
+            PhotosModel photosModel = new PhotosModel(Id, title, Url, ImageUrl);
+
+            try {
+                for (int i = 0; i < CompareList.size(); i++) {
+
+                    int ID = CompareList.get(i).getId();
+                    if (ID == Id) {
+                        CompareList.remove(i);
+                        Cadapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
+
+            } catch (Exception e) {
+            }
+
+        }
+    }
+
     private void Showlist() {
 
-        adapter = new CompareListingAdapter(CompareList, MainActivity.this);
-        binding.rvPhotolist.setItemAnimator(new DefaultItemAnimator());
-        binding.rvPhotolist.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        Cadapter = new CompareListingAdapter(CompareList, MainActivity.this);
+        binding.rvCompareList.setItemAnimator(new DefaultItemAnimator());
+        binding.rvCompareList.setAdapter(Cadapter);
+        //Cadapter.notifyDataSetChanged();
     }
+
+
 }
